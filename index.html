@@ -16,7 +16,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(-45deg, #ff4d8d, #6a5cff, #00c6ff, #ffcc00);
+    background: linear-gradient(-45deg, #ff4d8d, #ff5cc9, #cd7da8, #a95b9c);
     background-size: 400% 400%;
     animation: bg 12s ease infinite;
 }
@@ -42,6 +42,21 @@ body {
     z-index: 10;
 }
 
+/* YOUR NAME + TIKTOK */
+.creator {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+.creator span {
+    font-weight: bold;
+}
+
+/* GIFT */
 .gift {
     font-size: 85px;
     cursor: pointer;
@@ -65,7 +80,7 @@ body {
     font-size: 18px;
 }
 
-/* 🎈 BALLOON */
+/* BALLOON */
 .balloon {
     position: absolute;
     width: 40px;
@@ -111,18 +126,25 @@ body {
 </audio>
 
 <div class="card">
+
     <div class="gift" onclick="openGift()">🎁</div>
     <div class="clue">Click the gift 🎁</div>
 
     <h1>Happy Birthday 🎉</h1>
     <div class="message" id="text"></div>
+
+    <!-- 👇 YOUR NAME + TIKTOK -->
+    <div class="creator">
+        Made by <span>Arif</span> • TikTok: <span>@69diekatzee</span>
+    </div>
+
 </div>
 
 <script>
 
-let canClick = true;          // ⏱️ click cooldown
-let musicStarted = false;     // 🎵 music control
-let balloonCount = 0;         // 🎈 limit
+let canClick = true;
+let musicStarted = false;
+let balloonCount = 0;
 const MAX_BALLOONS = 18;
 
 function startMusic(){
@@ -132,8 +154,7 @@ function startMusic(){
     }
 }
 
-/* 🎉 MESSAGE */
-const message = "Happy Birthday Auni 🎉 Hang classmate pertama aku wish Birthday guna Website💖 and suprisingly aku sempat buat web ni dlm masa 1 malam, so please rate Website ni, nanti aku bagi la RM10";
+const message = "Happy Birthday Auni 🎉 Hang classmate pertama aku wish Birthday guna Website💖 and suprisingly aku sempat buat web ni dlm masa 1 malam, so please rate Website ni, nanti aku bagi la RM10";;
 let i = 0;
 
 function typeText(){
@@ -144,7 +165,6 @@ function typeText(){
     }
 }
 
-/* 🎈 BALLOONS */
 function createBalloon(){
 
     if(balloonCount >= MAX_BALLOONS) return;
@@ -173,10 +193,8 @@ function randomColor(){
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-/*  MAIN CLICK */
 function openGift(){
 
-    //  CLICK LIMIT (3 sec)
     if(!canClick) return;
     canClick = false;
 
@@ -188,12 +206,10 @@ function openGift(){
         origin: { y: 0.6 }
     });
 
-    //  controlled spawn (no lag)
     for(let i=0;i<10;i++){
         setTimeout(createBalloon, i * 180);
     }
 
-    //  typing message
     document.getElementById("text").innerHTML = "";
     i = 0;
     typeText();
