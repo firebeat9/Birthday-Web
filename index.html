@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Birthday Surprise 🎂</title>
+<title>Birthday Surprise 🎉</title>
 
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
@@ -11,17 +11,17 @@
 body {
     margin: 0;
     height: 100vh;
+    overflow: hidden;
+    font-family: Arial;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Arial;
-    overflow: hidden;
-    background: linear-gradient(-45deg, #ff4d8d, #6a5cff, #00d4ff, #ffcc00);
+    background: linear-gradient(-45deg, #ff4d8d, #6a5cff, #00c6ff, #ffcc00);
     background-size: 400% 400%;
-    animation: gradient 10s ease infinite;
+    animation: bg 10s ease infinite;
 }
 
-@keyframes gradient {
+@keyframes bg {
     0% {background-position:0% 50%}
     50% {background-position:100% 50%}
     100% {background-position:0% 50%}
@@ -29,27 +29,28 @@ body {
 
 .card {
     text-align: center;
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.12);
     padding: 40px;
     border-radius: 20px;
     backdrop-filter: blur(12px);
     color: white;
-    box-shadow: 0 0 30px rgba(0,0,0,0.3);
     width: 90%;
     max-width: 500px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    z-index: 2;
+    position: relative;
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 2.3rem;
 }
 
 button {
-    padding: 12px 20px;
+    padding: 12px 18px;
     border: none;
     border-radius: 12px;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 15px;
 }
 
 .gift {
@@ -63,9 +64,28 @@ button {
 }
 
 .message {
-    margin-top: 20px;
-    font-size: 18px;
+    margin-top: 15px;
     min-height: 40px;
+}
+
+/* 🎈 BALLOONS */
+.balloon {
+    position: absolute;
+    bottom: -100px;
+    width: 40px;
+    height: 50px;
+    border-radius: 50%;
+    animation: floatUp 8s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-120vh);
+    }
 }
 </style>
 </head>
@@ -74,13 +94,12 @@ button {
 
 <div class="card">
     <div class="gift" onclick="openGift()">🎁</div>
-    <h1>Happy Birthday 🎂</h1>
-
+    <h1>Happy Birthday 🎉</h1>
     <div class="message" id="text"></div>
 </div>
 
 <script>
-const message = "Happy Birthday Auni 🎉 Hope your day is full of happiness, laughter, and beautiful memories 💖";
+const message = "Happy Birthday Auni 🎉 Hope your day is full of happiness, success, and amazing memories 🎈";
 
 let i = 0;
 
@@ -88,16 +107,39 @@ function typeText(){
     if(i < message.length){
         document.getElementById("text").innerHTML += message.charAt(i);
         i++;
-        setTimeout(typeText, 50);
+        setTimeout(typeText, 45);
     }
+}
+
+// 🎈 CREATE BALLOONS
+function createBalloons(){
+    for(let i=0;i<12;i++){
+        let b = document.createElement("div");
+        b.className = "balloon";
+
+        b.style.left = Math.random()*100 + "vw";
+        b.style.background = randomColor();
+        b.style.animationDuration = (5 + Math.random()*5) + "s";
+
+        document.body.appendChild(b);
+
+        setTimeout(()=>{ b.remove(); }, 10000);
+    }
+}
+
+function randomColor(){
+    const colors = ["#ff4d8d","#6a5cff","#00c6ff","#ffcc00","#00ff88"];
+    return colors[Math.floor(Math.random()*colors.length)];
 }
 
 function openGift(){
     confetti({
-        particleCount: 250,
-        spread: 120,
+        particleCount: 300,
+        spread: 140,
         origin: { y: 0.6 }
     });
+
+    createBalloons();
 
     document.getElementById("text").innerHTML = "";
     i = 0;
